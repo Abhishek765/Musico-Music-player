@@ -26,7 +26,6 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import com.example.musico.BuildConfig;
-import com.example.musico.Fragments.MainScreenFragment;
 import com.example.musico.R;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -171,9 +170,9 @@ public class DemoActivity extends AppCompatActivity {
                                                 @Override
                                                 public void onClick(DialogInterface dialogInterface, int i) {
                                                     // Open corresponding detected Emotion Song List(Ex: Emotion Fragment)
-//                                                    Toast.makeText(DemoActivity.this, "Opening " + emotionValue, Toast.LENGTH_SHORT).show();
-                                                       Intent FragmentIntent  = new Intent(DemoActivity.this, MainScreenFragment.class);
-                                                       startActivity(FragmentIntent);
+////                                                    Toast.makeText(DemoActivity.this, "Opening " + emotionValue, Toast.LENGTH_SHORT).show();
+//                                                       Intent FragmentIntent  = new Intent(DemoActivity.this, MainScreenFragment.class);
+//                                                       startActivity(FragmentIntent);
                                                 }
                                             })
                                             .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {

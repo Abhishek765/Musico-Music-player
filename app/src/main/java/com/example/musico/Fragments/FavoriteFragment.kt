@@ -119,10 +119,10 @@ class FavoriteFragment : Fragment() {
         try {
             bottomBarClickHandler()
             songTitle?.setText(SongPlayingFragment.Statified.currentSongHelper?.songTitle)
-            SongPlayingFragment.Statified.mediaplayer?.setOnCompletionListener({
+            SongPlayingFragment.Statified.mediaplayer?.setOnCompletionListener {
                 songTitle?.setText(SongPlayingFragment.Statified.currentSongHelper?.songTitle)
                 SongPlayingFragment.Staticated.onSongComplete()
-            })
+            }
             if (SongPlayingFragment.Statified.mediaplayer?.isPlaying as Boolean) {
                 nowPlayingBottomBar?.visibility = View.VISIBLE
             } else {
@@ -134,7 +134,7 @@ class FavoriteFragment : Fragment() {
     }
 
     fun bottomBarClickHandler() {
-        nowPlayingBottomBar?.setOnClickListener({
+        nowPlayingBottomBar?.setOnClickListener {
             Statified.mediaPlayer = SongPlayingFragment.Statified.mediaplayer
             var args = Bundle()
             val songPlayingFragment = SongPlayingFragment()
@@ -153,9 +153,9 @@ class FavoriteFragment : Fragment() {
                     .commit()
 
 
-        })
+        }
 
-        playPauseButton?.setOnClickListener({
+        playPauseButton?.setOnClickListener {
             if (SongPlayingFragment.Statified.mediaplayer?.isPlaying as Boolean) {
                 SongPlayingFragment.Statified.mediaplayer?.pause()
                 trackPosition = SongPlayingFragment.Statified.mediaplayer?.getCurrentPosition() as Int
@@ -165,7 +165,7 @@ class FavoriteFragment : Fragment() {
                 SongPlayingFragment.Statified.mediaplayer?.start()
                 playPauseButton?.setBackgroundResource(R.drawable.pause_icon)
             }
-        })
+        }
     }
 
     fun display_favorites_by_searching() {
@@ -174,8 +174,8 @@ class FavoriteFragment : Fragment() {
             getListfromDatabase = favoriteContent?.queryDBList()
             var fetchListfromDevice = getSongsFromPhone()
             if (fetchListfromDevice != null) {
-                for (i in 0..fetchListfromDevice?.size - 1) {
-                    for (j in 0..getListfromDatabase?.size as Int - 1) {
+                for (i in 0 until fetchListfromDevice?.size) {
+                    for (j in 0 until getListfromDatabase?.size as Int) {
                         if ((getListfromDatabase?.get(j)?.songID) == (fetchListfromDevice?.get(i)?.songID)) {
                             refreshList?.add((getListfromDatabase as ArrayList<Songs>)[j])
                         }
