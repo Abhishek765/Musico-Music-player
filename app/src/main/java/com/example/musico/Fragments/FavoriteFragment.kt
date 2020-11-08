@@ -47,7 +47,7 @@ class FavoriteFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
-        val view = inflater!!.inflate(R.layout.fragment_favorite, container, false)
+        val view = inflater.inflate(R.layout.fragment_favorite, container, false)
         activity?.title = "Favorites"
         setHasOptionsMenu(true)
         noFavorites = view?.findViewById(R.id.noFavorites)
@@ -93,10 +93,10 @@ class FavoriteFragment : Fragment() {
     }
 
     fun getSongsFromPhone(): ArrayList<Songs> {
-        var arrayList = ArrayList<Songs>()
-        var contentResolver = myActivity?.contentResolver
-        var songUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
-        var songCursor = contentResolver?.query(songUri, null, null, null, null)
+        val arrayList = ArrayList<Songs>()
+        val contentResolver = myActivity?.contentResolver
+        val songUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
+        val songCursor = contentResolver?.query(songUri, null, null, null, null)
         if (songCursor != null && songCursor.moveToFirst()) {
             val songId = songCursor.getColumnIndex(MediaStore.Audio.Media._ID)
             val songTitle = songCursor.getColumnIndex(MediaStore.Audio.Media.TITLE)

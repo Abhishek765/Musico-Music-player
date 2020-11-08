@@ -2,18 +2,18 @@ package com.example.musico.adapters
 
 import android.content.Context
 import android.os.Bundle
-import androidx.fragment.app.FragmentActivity
-import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.RelativeLayout
 import android.widget.TextView
+import androidx.fragment.app.FragmentActivity
+import androidx.recyclerview.widget.RecyclerView
 import com.example.musico.Fragments.SongPlayingFragment
 import com.example.musico.R
 import com.example.musico.Songs
 
-class FavoriteAdapter(_songDetails: ArrayList<Songs>, _context: Context) : RecyclerView.Adapter<FavoriteAdapter.MyViewHolder>() {
+class HappyAdapter(_songDetails: ArrayList<Songs>, _context: Context) : RecyclerView.Adapter<HappyAdapter.MyViewHolder>() {
 
     var songDetails: ArrayList<Songs>? = null
     var mContext: Context? = null
@@ -23,13 +23,14 @@ class FavoriteAdapter(_songDetails: ArrayList<Songs>, _context: Context) : Recyc
         this.mContext = _context
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
-        val itemView = LayoutInflater.from(parent?.context)
-                .inflate(R.layout.row_custom_mainscreen_adapter, parent, false)
-
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HappyAdapter.MyViewHolder {
+        val itemView = LayoutInflater.from(parent.context).inflate(R.layout.row_custom_mainscreen_adapter, parent, false)
+        notifyDataSetChanged()
         return MyViewHolder(itemView)
-
     }
+
+
+
 
     override fun getItemCount(): Int {
         if (songDetails == null) {
@@ -37,10 +38,9 @@ class FavoriteAdapter(_songDetails: ArrayList<Songs>, _context: Context) : Recyc
         } else {
             return (songDetails as ArrayList<Songs>).size
         }
-
     }
 
-    override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: HappyAdapter.MyViewHolder, position: Int) {
         val songObject = songDetails?.get(position)
         holder.trackTitle?.text = songObject?.songTitle
         holder.trackArtist?.text = songObject?.artist
@@ -64,7 +64,7 @@ class FavoriteAdapter(_songDetails: ArrayList<Songs>, _context: Context) : Recyc
             (mContext as FragmentActivity).supportFragmentManager
                     .beginTransaction()
                     .replace(R.id.details_fragment, songPlayingFragment)
-                    .addToBackStack("SongPlayingFragmentFavorite")
+                    .addToBackStack("SongPlayingFragmentHappy")
                     .commit()
         }
     }
@@ -81,5 +81,4 @@ class FavoriteAdapter(_songDetails: ArrayList<Songs>, _context: Context) : Recyc
         }
 
     }
-
 }

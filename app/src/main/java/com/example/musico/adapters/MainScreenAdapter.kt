@@ -2,26 +2,39 @@ package com.example.musico.adapters
 
 import android.content.Context
 import android.os.Bundle
-import androidx.fragment.app.FragmentActivity
-import androidx.recyclerview.widget.RecyclerView
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.PopupMenu
 import android.widget.RelativeLayout
 import android.widget.TextView
+import android.widget.Toast
+import androidx.fragment.app.FragmentActivity
+import androidx.recyclerview.widget.RecyclerView
+import com.example.musico.CurrentSongHelper
+import com.example.musico.Fragments.MainScreenFragment
 import com.example.musico.Fragments.SongPlayingFragment
 import com.example.musico.R
 import com.example.musico.Songs
+import com.example.musico.databases.EchoDatabase
 
 
 class MainScreenAdapter(_songDetails: ArrayList<Songs>, _context: Context) : RecyclerView.Adapter<MainScreenAdapter.MyViewHolder>() {
 
     var songDetails: ArrayList<Songs>? = null
     var mContext: Context? = null
+    var happyContent: EchoDatabase? = null
+    var currentSongHelper: CurrentSongHelper? = null
+ 
 
     init {
         this.songDetails = _songDetails
         this.mContext = _context
+        happyContent = EchoDatabase(_context)
+        currentSongHelper = CurrentSongHelper()
+
+
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
@@ -44,12 +57,81 @@ class MainScreenAdapter(_songDetails: ArrayList<Songs>, _context: Context) : Rec
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         var songObject = songDetails?.get(position)
-        if(songObject?.songTitle?.contains("AUD")!!){
+        if (songObject?.songTitle?.contains("AUD")!!) {
             songObject = null
             return
         }
         holder.trackTitle?.text = songObject.songTitle
         holder.trackArtist?.text = songObject.artist
+
+        var path: String? = null
+        var _songTitle: String? = null
+        var _songArtist: String? = null
+        var songId: Long = 0
+
+        try {
+//            path = bundleObejct?.getString("path")
+            path = songObject.songData
+            _songTitle = songObject.songTitle
+            _songArtist = songObject.artist
+            songId = songObject.songID
+
+
+
+            currentSongHelper?.songPath = path
+            currentSongHelper?.songArtist = _songArtist
+            currentSongHelper?.songId = songId
+            currentSongHelper?.songTitle = _songTitle
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+
+        holder.emotionMenu?.setOnClickListener {
+
+            //creating a popup menu
+            val popup = PopupMenu(mContext, holder.emotionMenu)
+
+            //inflating menu from xml resource
+            popup.inflate(R.menu.options_menu)
+
+            //adding click listener
+            popup.setOnMenuItemClickListener { item ->
+                when (item.itemId) {
+                    R.id.it_happy -> {
+// TODO: 09-11-2020  find the bug why list of songs are not showing in HappyFragment 
+                        Log.e("TAG", "onBindViewHolder: path: $path")
+                        Log.e("TAG", "onBindViewHolder: songArtist: $_songArtist")
+                        Log.e("TAG", "onBindViewHolder: id: $songId")
+                        Log.e("TAG", "onBindViewHolder: title: $_songTitle")
+                        var currsongHelp = currentSongHelper
+                        //add particular item to happy list
+                        Log.e("TAG", "onBindViewHolder:  currentSongHelper : ${currsongHelp.toString()}")
+                        if (happyContent?.checkifIdExistsHappy(currsongHelp?.songId?.toInt() as Int) as Boolean) {
+
+
+                            Toast.makeText(mContext, "This song is already present song id: ${currsongHelp?.songId?.toInt()}", Toast.LENGTH_SHORT).show()
+
+                        } else {
+                            happyContent?.storeAsHappy(currsongHelp?.songId?.toInt(), currsongHelp?.songArtist, currsongHelp?.songTitle, currsongHelp?.songPath)
+                            Toast.makeText(mContext, "Added successfully Song title: ${currsongHelp?.songTitle}", Toast.LENGTH_SHORT).show()
+
+                        }
+//                        Log.e("MainScreenAdapter", "onBindViewHolder: SongID: " + songObject?.songID?.toInt())
+
+                    }
+                    R.id.it_neutral -> {
+                        Toast.makeText(mContext, "Neutral is clicked", Toast.LENGTH_SHORT).show()
+                    }
+                    R.id.it_sad -> {
+                        Toast.makeText(mContext, "Sad is clicked", Toast.LENGTH_SHORT).show()
+                    }
+                }
+                false
+            }
+            //displaying the popup
+            popup.show()
+        }
+
         holder.contentHolder?.setOnClickListener {
 
             var args = Bundle()
@@ -81,11 +163,13 @@ class MainScreenAdapter(_songDetails: ArrayList<Songs>, _context: Context) : Rec
         var trackTitle: TextView? = null
         var trackArtist: TextView? = null
         var contentHolder: RelativeLayout? = null
+        var emotionMenu: TextView? = null
 
         init {
             trackTitle = view.findViewById<TextView>(R.id.trackTitle)
             trackArtist = view.findViewById<TextView>(R.id.trackArtist)
             contentHolder = view.findViewById<RelativeLayout>(R.id.contentRow)
+            emotionMenu = view.findViewById(R.id.tv_emotion_options)
         }
 
     }

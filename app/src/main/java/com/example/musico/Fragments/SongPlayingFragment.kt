@@ -442,7 +442,6 @@ class SongPlayingFragment : Fragment() {
 
     fun clickHandler() {
 
-//        using Lamdas
         Statified.fab?.setOnClickListener {
             if (Statified.favotiteContent?.checkifIdExists(Statified.currentSongHelper?.songId?.toInt() as Int) as Boolean) {
                 Statified.fab?.setImageDrawable(ContextCompat.getDrawable(Statified.myActivity!!, R.drawable.favorite_off))
@@ -455,6 +454,7 @@ class SongPlayingFragment : Fragment() {
                 Toast.makeText(Statified.myActivity, "Added to favorites", Toast.LENGTH_SHORT).show()
             }
         }
+
         Statified.shuffleImageButton?.setOnClickListener {
             var editorShuffle = Statified.myActivity?.getSharedPreferences(Staticated.MY_PREFS_SHUFFLE, Context.MODE_PRIVATE)?.edit()
             var editorLoop = Statified.myActivity?.getSharedPreferences(Staticated.My_PREFS_LOOP, Context.MODE_PRIVATE)?.edit()

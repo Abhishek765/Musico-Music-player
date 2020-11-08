@@ -15,9 +15,11 @@ import android.view.*
 import android.widget.ImageButton
 import android.widget.RelativeLayout
 import android.widget.TextView
+import com.example.musico.CurrentSongHelper
 import com.example.musico.R
 import com.example.musico.Songs
 import com.example.musico.adapters.MainScreenAdapter
+import com.example.musico.databases.EchoDatabase
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -30,6 +32,9 @@ class MainScreenFragment : Fragment() {
 
     object Statified{
         var getSongsList: ArrayList<Songs>? = null
+        var happyContent: EchoDatabase? = null
+        var currentSongHelper: CurrentSongHelper? = null
+
 
     }
 //    This cannot be companion because writing that will make this templist singleton(one instance only) but we want multiple instance
@@ -141,11 +146,41 @@ class MainScreenFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        Statified.happyContent = EchoDatabase(myActivity)
+        Statified.currentSongHelper = CurrentSongHelper()
         Statified.getSongsList = getSongsFromPhone()
         Log.e("Songlist", "SongLIST: " + Statified.getSongsList)
 
+        Statified.currentSongHelper?.isPlaying = false
+        Statified.currentSongHelper?.isLoop = false
+        Statified.currentSongHelper?.isShuffle = false
+
+        var path: String? = null
+        var _songTitle: String? = null
+        var _songArtist: String? = null
+        var songId: Long = 0
+
+        try {
+            path = arguments?.getString("path")
+            _songTitle = arguments?.getString("songTitle")
+            _songArtist = arguments?.getString("songArtist")
+            songId = arguments?.getInt("songId")!!.toLong()
+
+
+
+            Statified.currentSongHelper?.songPath = path
+            Statified.currentSongHelper?.songArtist = _songArtist
+            Statified.currentSongHelper?.songId = songId
+            Statified.currentSongHelper?.songTitle = _songTitle
+
+            Log.e("TAG", "onActivityCreated: SongPAth: $path" )
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+
+
         tempList = getSongsFromPhone()
-        Log.e("tempList", "tempList: $tempList")
+
         /*Declaring the preferences to save the sorting order which we select*/
         val prefs = activity?.getSharedPreferences("action_sort", Context.MODE_PRIVATE)
         val action_sort_ascending = prefs?.getString("action_sort_ascending", "true")

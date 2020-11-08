@@ -1,6 +1,7 @@
 package com.example.musico.adapters
 
 import android.content.Context
+import android.content.Intent
 import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -8,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.RelativeLayout
 import android.widget.TextView
+import com.example.musico.Activities.ButtonsActivity
 import com.example.musico.Activities.MainActivity
 import com.example.musico.Fragments.AboutUsFragment
 import com.example.musico.Fragments.FavoriteFragment
@@ -28,6 +30,7 @@ class NavigationDrawerAdapter(_contentList: ArrayList<String>, _getImages: IntAr
         this.getImages = _getImages
         this.mContext = _context
     }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NavViewHolder {
         var itemView = LayoutInflater.from(parent?.context)
                 .inflate(R.layout.row_custom_navigationdrawer, parent, false)
@@ -43,30 +46,38 @@ class NavigationDrawerAdapter(_contentList: ArrayList<String>, _getImages: IntAr
         holder?.icon_GET?.setBackgroundResource(getImages?.get(position) as Int)
         holder?.text_GET?.setText(contentList?.get(position))
         holder?.contentHolder?.setOnClickListener {
-            if(position == 0) {
-                val mainScreenFragment = MainScreenFragment()
-                (mContext as MainActivity).supportFragmentManager
-                        .beginTransaction()
-                        .replace(R.id.details_fragment, mainScreenFragment)
-                        .commit()
-            } else if(position == 1){
-                val favoriteFragment = FavoriteFragment()
-                (mContext as MainActivity).supportFragmentManager
-                        .beginTransaction()
-                        .replace(R.id.details_fragment, favoriteFragment)
-                        .commit()
-            } else if(position == 2){
-                val settingsFragment = SettingsFragment()
-                (mContext as MainActivity).supportFragmentManager
-                        .beginTransaction()
-                        .replace(R.id.details_fragment, settingsFragment)
-                        .commit()
-            } else {
-                val aboutUsFragment = AboutUsFragment()
-                (mContext as MainActivity).supportFragmentManager
-                        .beginTransaction()
-                        .replace(R.id.details_fragment, aboutUsFragment)
-                        .commit()
+            when (position) {
+                0 -> {
+                    mContext?.startActivity(Intent(mContext, ButtonsActivity::class.java))
+                }
+                1 -> {
+                    val mainScreenFragment = MainScreenFragment()
+                    (mContext as MainActivity).supportFragmentManager
+                            .beginTransaction()
+                            .replace(R.id.details_fragment, mainScreenFragment)
+                            .commit()
+                }
+                2 -> {
+                    val favoriteFragment = FavoriteFragment()
+                    (mContext as MainActivity).supportFragmentManager
+                            .beginTransaction()
+                            .replace(R.id.details_fragment, favoriteFragment)
+                            .commit()
+                }
+                3 -> {
+                    val settingsFragment = SettingsFragment()
+                    (mContext as MainActivity).supportFragmentManager
+                            .beginTransaction()
+                            .replace(R.id.details_fragment, settingsFragment)
+                            .commit()
+                }
+                else -> {
+                    val aboutUsFragment = AboutUsFragment()
+                    (mContext as MainActivity).supportFragmentManager
+                            .beginTransaction()
+                            .replace(R.id.details_fragment, aboutUsFragment)
+                            .commit()
+                }
             }
             MainActivity.Statified.drawerLayout?.closeDrawers()
         }

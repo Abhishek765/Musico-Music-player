@@ -173,6 +173,23 @@ public class DemoActivity extends AppCompatActivity {
 ////                                                    Toast.makeText(DemoActivity.this, "Opening " + emotionValue, Toast.LENGTH_SHORT).show();
 //                                                       Intent FragmentIntent  = new Intent(DemoActivity.this, MainScreenFragment.class);
 //                                                       startActivity(FragmentIntent);
+                                                    if (emotionValue.equals("neutral")) {
+                                                        //Open neutral Fragment
+                                                        Intent mainIntent = new Intent(DemoActivity.this, MainActivity.class);
+                                                        mainIntent.putExtra("emotion", "neutral");
+                                                        startActivity(mainIntent);
+
+                                                    } else if (emotionValue.equals("happiness")) {
+                                                        //Open Happy Fragment
+                                                        Intent mainIntent = new Intent(DemoActivity.this, MainActivity.class);
+                                                        mainIntent.putExtra("emotion", "happiness");
+                                                        startActivity(mainIntent);
+
+                                                    } else if (emotionValue.equals("sadness")) {
+                                                        //Open sad Fragment
+                                                    } else { //Anger
+                                                        //Open anger Fragment
+                                                    }
                                                 }
                                             })
                                             .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -186,7 +203,6 @@ public class DemoActivity extends AppCompatActivity {
                                     AlertDialog alertDialog = builder.create();
 
                                     alertDialog.show();
-
 
 
                                 }
@@ -212,19 +228,18 @@ public class DemoActivity extends AppCompatActivity {
 
                     @Override
                     protected void onPreExecute() {
-                        //TODO: show progress dialog
+
                         detectionProgressDialog.show();
                     }
 
                     @Override
                     protected void onProgressUpdate(String... progress) {
-                        //TODO: update progress
+
                         detectionProgressDialog.setMessage(progress[0]);
                     }
 
                     @Override
                     protected void onPostExecute(Face[] result) {
-                        //TODO: update face frames
                         detectionProgressDialog.dismiss();
 
                         facesDetected = result;
