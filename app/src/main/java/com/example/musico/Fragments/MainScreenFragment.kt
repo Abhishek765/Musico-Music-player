@@ -43,7 +43,6 @@ class MainScreenFragment : Fragment() {
         var tempList: ArrayList<Songs> ?= null
     }
    
-    var displayList: ArrayList<Songs>? = null
 
     var nowPlayingBottomBar: RelativeLayout? = null
     var playPauseButton: ImageButton? = null
@@ -77,38 +76,38 @@ class MainScreenFragment : Fragment() {
         menu?.clear()
         inflater?.inflate(R.menu.main, menu)
 
-        val searchItem = menu?.findItem(R.id.action_search)
-        if (searchItem != null ) {
-            val searchView = searchItem?.actionView as SearchView
-
-            searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-                override fun onQueryTextSubmit(query: String?): Boolean {
-
-                    return false
-                }
-
-                override fun onQueryTextChange(newText: String?): Boolean {
-
-                    var temp = getSongsFromPhone()
-
-                    if (!newText!!.toLowerCase().trim().equals("")) {
-                        //filter the list
-                        displayList?.clear()
-                        val search = newText.toLowerCase().trim()
-                        Statified.getSongsList?.forEach {
-                            if (it.songTitle.toLowerCase().contains(search)) {
-                                displayList?.add(it)
-                            }
-                        }
-                        recyclerView?.adapter = MainScreenAdapter(Statified.getSongsList as ArrayList<Songs>, myActivity as Context)
-                    } else {
-                        Statified.getSongsList = temp
-                        recyclerView?.adapter = MainScreenAdapter(Statified.getSongsList as ArrayList<Songs>, myActivity as Context)
-                    }
-                    return false
-                }
-            })
-        }
+//        val searchItem = menu?.findItem(R.id.action_search)
+//        if (searchItem != null ) {
+//            val searchView = searchItem?.actionView as SearchView
+//
+//            searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+//                override fun onQueryTextSubmit(query: String?): Boolean {
+//
+//                    return false
+//                }
+//
+//                override fun onQueryTextChange(newText: String?): Boolean {
+//
+//                    var temp = getSongsFromPhone()
+//
+//                    if (!newText!!.toLowerCase().trim().equals("")) {
+//                        //filter the list
+//                        displayList?.clear()
+//                        val search = newText.toLowerCase().trim()
+//                        Statified.getSongsList?.forEach {
+//                            if (it.songTitle.toLowerCase().contains(search)) {
+//                                displayList?.add(it)
+//                            }
+//                        }
+//                        recyclerView?.adapter = MainScreenAdapter(Statified.getSongsList as ArrayList<Songs>, myActivity as Context)
+//                    } else {
+//                        Statified.getSongsList = temp
+//                        recyclerView?.adapter = MainScreenAdapter(Statified.getSongsList as ArrayList<Songs>, myActivity as Context)
+//                    }
+//                    return false
+//                }
+//            })
+//        }
     }
 
     override fun onPrepareOptionsMenu(menu: Menu?) {
@@ -146,9 +145,11 @@ class MainScreenFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+
         Statified.happyContent = EchoDatabase(myActivity)
         Statified.currentSongHelper = CurrentSongHelper()
         Statified.getSongsList = getSongsFromPhone()
+        // TODO: 10-11-2020 Fix this 2 times calling of activity result method 
         Log.e("Songlist", "SongLIST: " + Statified.getSongsList)
 
         Statified.currentSongHelper?.isPlaying = false

@@ -9,8 +9,6 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
-import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -29,7 +27,7 @@ private var mIsInForegroundMode = false
 class MainActivity : AppCompatActivity() {
 
     var navigationDrawerIconList: ArrayList<String> = arrayListOf()
-    var images_for_navdrawer = intArrayOf(R.drawable.home,R.drawable.navigation_allsongs, R.drawable.navigation_favorites,R.drawable.navigation_settings, R.drawable.navigation_aboutus)
+    var images_for_navdrawer = intArrayOf(R.drawable.home, R.drawable.navigation_allsongs, R.drawable.navigation_favorites, R.drawable.navigation_settings, R.drawable.navigation_aboutus)
     lateinit var mBuilder: NotificationCompat.Builder
     val CHANNEL_ID = "Music200"
 
@@ -59,7 +57,6 @@ class MainActivity : AppCompatActivity() {
         toggle.syncState()
 
         val emotionString = intent.getStringExtra("emotion")
-        Log.e("Inside MainActivity", "onCreate: Emotion key value:  $emotionString" )
 
 
         when {
@@ -187,6 +184,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
+
         mIsInForegroundMode = true
         try {
             Statified.notificationManager?.cancel(1888)

@@ -18,7 +18,6 @@ import kotlin.random.Random
 
 class ButtonsActivity : AppCompatActivity() {
     var mActivity: Activity? = null
-    var tempList: ArrayList<String> ?= null
     private var isSongPlaying:Boolean ?= null
 
     override fun onCreate(savedInstanceState: Bundle?) {

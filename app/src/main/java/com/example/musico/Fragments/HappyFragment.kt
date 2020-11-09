@@ -32,13 +32,14 @@ class HappyFragment : Fragment() {
     var songTitle: TextView? = null
     var recyclerView: RecyclerView? = null
     var trackPosition: Int = 0
-    var happyContent: EchoDatabase? = null
+
 
     var refreshList: ArrayList<Songs>? = null
     var getListfromDatabase: ArrayList<Songs>? = null
     var happyAdapter: HappyAdapter ?= null
     object Statified {
         var mediaPlayer: MediaPlayer? = null
+        var happyContent: EchoDatabase? = null
     }
 
 //    override fun setUserVisibleHint(isVisibleToUser: Boolean) {
@@ -77,7 +78,7 @@ class HappyFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        happyContent = EchoDatabase(myActivity)
+        Statified.happyContent = EchoDatabase(myActivity)
         display_happy_by_searching()
         Log.e("HappyFragment", "onActivityCreated: $getListfromDatabase" )
         bottomBarSetup()
@@ -169,10 +170,12 @@ class HappyFragment : Fragment() {
     }
 
     private fun display_happy_by_searching() {
-        if (happyContent?.checkSizeHappy() as Int > 0) {
+        if (Statified.happyContent?.checkSizeHappy() as Int > 0) {
             refreshList = ArrayList<Songs>()
-            getListfromDatabase = happyContent?.queryDBHappyList()
+            getListfromDatabase = Statified.happyContent?.queryDBHappyList()
+            Log.e("Inside Happy Fragment", "getListfromDatabase:  $getListfromDatabase" )
             var fetchListfromDevice = getSongsFromPhone()
+            Log.e("Inside Happy Fragment", "fetchListfromDevice:  $fetchListfromDevice" )
             for (i in 0 until fetchListfromDevice.size) {
                 for (j in 0 until getListfromDatabase?.size as Int) {
                     if ((getListfromDatabase?.get(j)?.songID) == (fetchListfromDevice[i].songID)) {

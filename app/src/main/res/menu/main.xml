@@ -11,7 +11,8 @@
         android:icon="@drawable/search_icon"
         android:title="@string/action_search"
         app:actionViewClass="androidx.appcompat.widget.SearchView"
-        app:showAsAction="ifRoom|collapseActionView" />
+        app:showAsAction="ifRoom|collapseActionView"
+        android:visible="false"/>
 
     <item
         android:id="@+id/action_sort"

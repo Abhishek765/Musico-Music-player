@@ -13,6 +13,7 @@ import android.widget.Toast
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.example.musico.CurrentSongHelper
+import com.example.musico.Fragments.HappyFragment
 import com.example.musico.Fragments.MainScreenFragment
 import com.example.musico.Fragments.SongPlayingFragment
 import com.example.musico.R
@@ -24,16 +25,12 @@ class MainScreenAdapter(_songDetails: ArrayList<Songs>, _context: Context) : Rec
 
     var songDetails: ArrayList<Songs>? = null
     var mContext: Context? = null
-    var happyContent: EchoDatabase? = null
-    var currentSongHelper: CurrentSongHelper? = null
- 
+
+
 
     init {
         this.songDetails = _songDetails
         this.mContext = _context
-        happyContent = EchoDatabase(_context)
-        currentSongHelper = CurrentSongHelper()
-
 
     }
 
@@ -77,11 +74,6 @@ class MainScreenAdapter(_songDetails: ArrayList<Songs>, _context: Context) : Rec
             songId = songObject.songID
 
 
-
-            currentSongHelper?.songPath = path
-            currentSongHelper?.songArtist = _songArtist
-            currentSongHelper?.songId = songId
-            currentSongHelper?.songTitle = _songTitle
         } catch (e: Exception) {
             e.printStackTrace()
         }
@@ -98,22 +90,15 @@ class MainScreenAdapter(_songDetails: ArrayList<Songs>, _context: Context) : Rec
             popup.setOnMenuItemClickListener { item ->
                 when (item.itemId) {
                     R.id.it_happy -> {
-// TODO: 09-11-2020  find the bug why list of songs are not showing in HappyFragment 
-                        Log.e("TAG", "onBindViewHolder: path: $path")
-                        Log.e("TAG", "onBindViewHolder: songArtist: $_songArtist")
-                        Log.e("TAG", "onBindViewHolder: id: $songId")
-                        Log.e("TAG", "onBindViewHolder: title: $_songTitle")
-                        var currsongHelp = currentSongHelper
+
                         //add particular item to happy list
-                        Log.e("TAG", "onBindViewHolder:  currentSongHelper : ${currsongHelp.toString()}")
-                        if (happyContent?.checkifIdExistsHappy(currsongHelp?.songId?.toInt() as Int) as Boolean) {
-
-
-                            Toast.makeText(mContext, "This song is already present song id: ${currsongHelp?.songId?.toInt()}", Toast.LENGTH_SHORT).show()
-
+                        if (MainScreenFragment.Statified.happyContent?.checkifIdExistsHappy(songId.toInt()) as Boolean) {
+                            Toast.makeText(mContext, "This song is already present song id: ${songId.toInt()}", Toast.LENGTH_SHORT).show()
+                            Log.e("Main Screen Adapter", "song path in MainScreen: $path")
                         } else {
-                            happyContent?.storeAsHappy(currsongHelp?.songId?.toInt(), currsongHelp?.songArtist, currsongHelp?.songTitle, currsongHelp?.songPath)
-                            Toast.makeText(mContext, "Added successfully Song title: ${currsongHelp?.songTitle}", Toast.LENGTH_SHORT).show()
+                            MainScreenFragment.Statified.happyContent?.storeAsHappy(songId.toInt(), _songArtist, _songTitle, path)
+                            Toast.makeText(mContext, "Added successfully Song title: ${_songTitle}", Toast.LENGTH_SHORT).show()
+                            Log.e("Main Screen Adapter", "song path in Mainscrenn: $path")
 
                         }
 //                        Log.e("MainScreenAdapter", "onBindViewHolder: SongID: " + songObject?.songID?.toInt())
