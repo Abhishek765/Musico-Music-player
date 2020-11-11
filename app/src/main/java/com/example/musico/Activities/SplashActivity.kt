@@ -27,9 +27,9 @@ class SplashActivity : AppCompatActivity() {
             ActivityCompat.requestPermissions(this@SplashActivity, permissionsString, 131)
         } else {
             Handler().postDelayed({
-                val startAct = Intent(this@SplashActivity, ButtonsActivity::class.java)
+                val startAct = Intent(this@SplashActivity, MainActivity::class.java)
                 startActivity(startAct)
-                Log.e("TAG", "onCreate:  $startAct" )
+//                Log.e("TAG", "onCreate:  $startAct" )
                 this.finish()
             }, 1000)
         }
@@ -45,7 +45,7 @@ class SplashActivity : AppCompatActivity() {
                         && grantResults[3] == PackageManager.PERMISSION_GRANTED
                         && grantResults[4] == PackageManager.PERMISSION_GRANTED) {
                     Handler().postDelayed({
-                        val startAct = Intent(this@SplashActivity, ButtonsActivity::class.java)
+                        val startAct = Intent(this@SplashActivity, MainActivity::class.java)
                         startActivity(startAct)
                         this.finish()
                     },1000)

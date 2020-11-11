@@ -33,7 +33,7 @@ class MainScreenFragment : Fragment() {
     object Statified{
         var getSongsList: ArrayList<Songs>? = null
         var happyContent: EchoDatabase? = null
-        var currentSongHelper: CurrentSongHelper? = null
+//        var currentSongHelper: CurrentSongHelper? = null
 
 
     }
@@ -62,7 +62,7 @@ class MainScreenFragment : Fragment() {
         setHasOptionsMenu(true)
         activity?.title = "All songs"
         visibleLayout = view?.findViewById<RelativeLayout>(R.id.visibleLayout)
-        visibleLayout = view?.findViewById<RelativeLayout>(R.id.visibleLayout)
+//        visibleLayout = view?.findViewById<RelativeLayout>(R.id.visibleLayout)
         noSongs = view?.findViewById<RelativeLayout>(R.id.noSongs)
         nowPlayingBottomBar = view.findViewById<RelativeLayout>(R.id.hiddenBarMainScreen)
         songTitle = view?.findViewById<TextView>(R.id.songTitleMainScreen)
@@ -145,42 +145,40 @@ class MainScreenFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-
         Statified.happyContent = EchoDatabase(myActivity)
-        Statified.currentSongHelper = CurrentSongHelper()
+//        Statified.currentSongHelper = CurrentSongHelper()
         Statified.getSongsList = getSongsFromPhone()
         // TODO: 10-11-2020 Fix this 2 times calling of activity result method 
-        Log.e("Songlist", "SongLIST: " + Statified.getSongsList)
+        Log.e("This is me Songlist", "SongLIST: " + Statified.getSongsList)
 
-        Statified.currentSongHelper?.isPlaying = false
-        Statified.currentSongHelper?.isLoop = false
-        Statified.currentSongHelper?.isShuffle = false
+//        Statified.currentSongHelper?.isPlaying = false
+//        Statified.currentSongHelper?.isLoop = false
+//        Statified.currentSongHelper?.isShuffle = false
 
-        var path: String? = null
-        var _songTitle: String? = null
-        var _songArtist: String? = null
-        var songId: Long = 0
+//        var path: String? = null
+//        var _songTitle: String? = null
+//        var _songArtist: String? = null
+//        var songId: Long = 0
+//
+//        try {
+//            path = arguments?.getString("path")
+//            _songTitle = arguments?.getString("songTitle")
+//            _songArtist = arguments?.getString("songArtist")
+//            songId = arguments?.getInt("songId")!!.toLong()
+//
+//
+//
+//            Statified.currentSongHelper?.songPath = path
+//            Statified.currentSongHelper?.songArtist = _songArtist
+//            Statified.currentSongHelper?.songId = songId
+//            Statified.currentSongHelper?.songTitle = _songTitle
+//
+//            Log.e("TAG", "onActivityCreated: SongPAth: $path" )
+//        } catch (e: Exception) {
+//            e.printStackTrace()
+//        }
 
-        try {
-            path = arguments?.getString("path")
-            _songTitle = arguments?.getString("songTitle")
-            _songArtist = arguments?.getString("songArtist")
-            songId = arguments?.getInt("songId")!!.toLong()
 
-
-
-            Statified.currentSongHelper?.songPath = path
-            Statified.currentSongHelper?.songArtist = _songArtist
-            Statified.currentSongHelper?.songId = songId
-            Statified.currentSongHelper?.songTitle = _songTitle
-
-            Log.e("TAG", "onActivityCreated: SongPAth: $path" )
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-
-
-        tempList = getSongsFromPhone()
 
         /*Declaring the preferences to save the sorting order which we select*/
         val prefs = activity?.getSharedPreferences("action_sort", Context.MODE_PRIVATE)
@@ -256,10 +254,10 @@ class MainScreenFragment : Fragment() {
         try {
             bottomBarClickHandler()
             songTitle?.setText(SongPlayingFragment.Statified.currentSongHelper?.songTitle)
-            SongPlayingFragment.Statified.mediaplayer?.setOnCompletionListener({
+            SongPlayingFragment.Statified.mediaplayer?.setOnCompletionListener {
                 songTitle?.setText(SongPlayingFragment.Statified.currentSongHelper?.songTitle)
                 SongPlayingFragment.Staticated.onSongComplete()
-            })
+            }
             if (SongPlayingFragment.Statified.mediaplayer?.isPlaying as Boolean) {
                 nowPlayingBottomBar?.visibility = View.VISIBLE
             } else {
@@ -273,6 +271,7 @@ class MainScreenFragment : Fragment() {
     fun bottomBarClickHandler() {
         nowPlayingBottomBar?.setOnClickListener {
             FavoriteFragment.Statified.mediaPlayer = SongPlayingFragment.Statified.mediaplayer
+//            HappyFragment.Statified.mediaPlayer = SongPlayingFragment.Statified.mediaplayer
             var args = Bundle()
             val songPlayingFragment = SongPlayingFragment()
             args.putString("songArtist", SongPlayingFragment.Statified.currentSongHelper?.songArtist)
@@ -282,6 +281,7 @@ class MainScreenFragment : Fragment() {
             args.putInt("songPosition", SongPlayingFragment.Statified.currentSongHelper?.currentPosition?.toInt() as Int)
             args.putParcelableArrayList("songData", SongPlayingFragment.Statified.fetchSongs)
             args.putString("FavBottomBar", "success")
+//            args.putString("HapBottomBar", "success")
             songPlayingFragment.arguments = args
             fragmentManager!!.beginTransaction()
                     .replace(R.id.details_fragment, songPlayingFragment)

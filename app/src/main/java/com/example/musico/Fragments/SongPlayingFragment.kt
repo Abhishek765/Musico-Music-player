@@ -361,7 +361,9 @@ class SongPlayingFragment : Fragment() {
         } catch (e: Exception) {
             e.printStackTrace()
         }
+        // TODO: 12-11-2020 Make changes here to get song of happy Fragment also 
         var fromFavBottomBar = arguments!!.get("FavBottomBar") as? String
+//        var fromFavBottomBar = arguments!!.get("HapBottomBar") as? String
         if (fromFavBottomBar != null) {
             Statified.mediaplayer = FavoriteFragment.Statified.mediaPlayer
         } else {

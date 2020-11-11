@@ -36,7 +36,6 @@ class HappyFragment : Fragment() {
 
     var refreshList: ArrayList<Songs>? = null
     var getListfromDatabase: ArrayList<Songs>? = null
-    var happyAdapter: HappyAdapter ?= null
     object Statified {
         var mediaPlayer: MediaPlayer? = null
         var happyContent: EchoDatabase? = null
@@ -62,7 +61,6 @@ class HappyFragment : Fragment() {
         songTitle = view.findViewById(R.id.songTitleHappyScreen)
         playPauseButton = view.findViewById(R.id.playPauseButton)
         recyclerView = view.findViewById(R.id.happyRecycler)
-        happyAdapter?.notifyDataSetChanged()
         return view
     }
 
@@ -116,7 +114,7 @@ class HappyFragment : Fragment() {
         return arrayList
     }
 
-    private fun bottomBarSetup() {
+     fun bottomBarSetup() {
         try {
             bottomBarClickHandler()
             songTitle?.setText(SongPlayingFragment.Statified.currentSongHelper?.songTitle)
@@ -134,10 +132,16 @@ class HappyFragment : Fragment() {
         }
     }
 
-    private fun bottomBarClickHandler() {
+     fun bottomBarClickHandler() {
         nowPlayingBottomBar?.setOnClickListener {
+//            if (SongPlayingFragment.Statified.mediaplayer?.isPlaying as Boolean) {
+//                SongPlayingFragment.Statified.mediaplayer?.seekTo(0)
+//                SongPlayingFragment.Statified.mediaplayer?.start()
+//            }
+
             Statified.mediaPlayer = SongPlayingFragment.Statified.mediaplayer
             var args = Bundle()
+            Log.e("Happy Fragment", "bottomBarClickHandler: args : $args" )
             val songPlayingFragment = SongPlayingFragment()
             args.putString("songArtist", SongPlayingFragment.Statified.currentSongHelper?.songArtist)
             args.putString("path", SongPlayingFragment.Statified.currentSongHelper?.songPath)
@@ -145,6 +149,7 @@ class HappyFragment : Fragment() {
             args.putInt("songId", SongPlayingFragment.Statified.currentSongHelper?.songId?.toInt() as Int)
             args.putInt("songPosition", SongPlayingFragment.Statified.currentSongHelper?.currentPosition?.toInt() as Int)
             args.putParcelableArrayList("songData", SongPlayingFragment.Statified.fetchSongs)
+//            args.putString("HapBottomBar", "success")
             args.putString("HapBottomBar", "success")
             songPlayingFragment.arguments = args
             //Here I change the code
@@ -169,27 +174,30 @@ class HappyFragment : Fragment() {
         }
     }
 
-    private fun display_happy_by_searching() {
+     fun display_happy_by_searching() {
         if (Statified.happyContent?.checkSizeHappy() as Int > 0) {
             refreshList = ArrayList<Songs>()
             getListfromDatabase = Statified.happyContent?.queryDBHappyList()
-            Log.e("Inside Happy Fragment", "getListfromDatabase:  $getListfromDatabase" )
+
             var fetchListfromDevice = getSongsFromPhone()
-            Log.e("Inside Happy Fragment", "fetchListfromDevice:  $fetchListfromDevice" )
-            for (i in 0 until fetchListfromDevice.size) {
-                for (j in 0 until getListfromDatabase?.size as Int) {
-                    if ((getListfromDatabase?.get(j)?.songID) == (fetchListfromDevice[i].songID)) {
-                        refreshList?.add((getListfromDatabase as ArrayList<Songs>)[j])
+            if(fetchListfromDevice != null) {
+                for (i in 0 until fetchListfromDevice.size) {
+                    for (j in 0 until getListfromDatabase?.size as Int) {
+                        if ((getListfromDatabase?.get(j)?.songID) == (fetchListfromDevice?.get(i)?.songID)) {
+                            refreshList?.add((getListfromDatabase as ArrayList<Songs>)[j])
+                        }
                     }
                 }
+            }else{
+
             }
+
             if (refreshList == null) {
                 recyclerView?.visibility = View.INVISIBLE
                 noHappy?.visibility = View.VISIBLE
             } else {
                 //Setting up the HappyAdapter
-                Log.e("TAG", "display_happy_by_searching:  refreshList: $refreshList" )
-                happyAdapter = HappyAdapter(refreshList as ArrayList<Songs>, myActivity as Context)
+                var happyAdapter = HappyAdapter(refreshList as ArrayList<Songs>, myActivity as Context)
                 //Setting the RecyclerView
                 val mLayoutManager = LinearLayoutManager(activity)
                 recyclerView?.layoutManager = mLayoutManager

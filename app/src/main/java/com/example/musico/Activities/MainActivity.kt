@@ -9,6 +9,7 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -42,6 +43,8 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
         MainActivity.Statified.drawerLayout = findViewById(R.id.drawer_layout)
@@ -65,7 +68,8 @@ class MainActivity : AppCompatActivity() {
                 val happyScreenFragment = HappyFragment()
                 this.supportFragmentManager
                         .beginTransaction()
-                        .add(R.id.details_fragment, happyScreenFragment, "HappyScreenFragment")
+//                        .add(R.id.details_fragment, happyScreenFragment, "HappyScreenFragment")
+                        .replace(R.id.details_fragment, happyScreenFragment)
                         .commit()
             }
 //            emotionString.equals("neutral") -> {
@@ -75,7 +79,8 @@ class MainActivity : AppCompatActivity() {
                 val mainScreenFragment = MainScreenFragment()
                 this.supportFragmentManager
                         .beginTransaction()
-                        .add(R.id.details_fragment, mainScreenFragment, "MainScreenFragment")
+//                        .add(R.id.details_fragment, mainScreenFragment, "MainScreenFragment")
+                        .replace(R.id.details_fragment, mainScreenFragment)
                         .commit()
             }
         }
@@ -132,7 +137,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-
+        Log.e("Inside Mainactivity", "onStart: is called")
         try {
             Statified.notificationManager?.cancel(1888)
         } catch (e: Exception) {
@@ -156,26 +161,26 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    override fun onDetachedFromWindow() {
-        super.onDetachedFromWindow()
-
-        try {
-            if (SongPlayingFragment.Statified.mediaplayer?.isPlaying as Boolean && isInForeground()) {
-
+//    override fun onDetachedFromWindow() {
+//        super.onDetachedFromWindow()
+//
+//        try {
+//            if (SongPlayingFragment.Statified.mediaplayer?.isPlaying as Boolean && isInForeground()) {
+//
+////                Statified.notificationManager?.notify(1888, mBuilder.build())
+//                Statified.notificationManager?.cancel(1888)
+//
+//            } else if (SongPlayingFragment.Statified.mediaplayer?.isPlaying as Boolean && !isInForeground()) {
+////                App is closed and music is playing
 //                Statified.notificationManager?.notify(1888, mBuilder.build())
-                Statified.notificationManager?.cancel(1888)
-
-            } else if (SongPlayingFragment.Statified.mediaplayer?.isPlaying as Boolean && !isInForeground()) {
-//                App is closed and music is playing
-                Statified.notificationManager?.notify(1888, mBuilder.build())
-            }
-            else {
-                Statified.notificationManager?.cancel(1888)
-            }
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-    }
+//            }
+//            else {
+//                Statified.notificationManager?.cancel(1888)
+//            }
+//        } catch (e: Exception) {
+//            e.printStackTrace()
+//        }
+//    }
 
     override fun onPause() {
         super.onPause()
@@ -194,7 +199,7 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    public fun isInForeground(): Boolean{
+     fun isInForeground(): Boolean{
         return mIsInForegroundMode
     }
 }

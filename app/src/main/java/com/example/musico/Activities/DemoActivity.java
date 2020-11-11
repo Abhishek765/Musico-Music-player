@@ -166,6 +166,7 @@ public class DemoActivity extends AppCompatActivity {
                                             .Builder(DemoActivity.this)
                                             .setTitle(emotionValue + " Emotion detected")
                                             .setMessage("Do you want to Continue?")
+                                            .setCancelable(false)
                                             .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                                                 @Override
                                                 public void onClick(DialogInterface dialogInterface, int i) {

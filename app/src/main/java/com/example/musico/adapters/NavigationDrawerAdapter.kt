@@ -49,6 +49,7 @@ class NavigationDrawerAdapter(_contentList: ArrayList<String>, _getImages: IntAr
             when (position) {
                 0 -> {
                     mContext?.startActivity(Intent(mContext, ButtonsActivity::class.java))
+
                 }
                 1 -> {
                     val mainScreenFragment = MainScreenFragment()

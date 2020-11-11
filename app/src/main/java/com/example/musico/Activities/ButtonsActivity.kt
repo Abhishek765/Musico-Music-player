@@ -40,7 +40,7 @@ class ButtonsActivity : AppCompatActivity() {
             //Stop the song and remove the notification
             MainActivity.Statified.notificationManager?.cancel(1888)
 
-            SongPlayingFragment.Statified.mediaplayer?.pause()
+            SongPlayingFragment.Statified.mediaplayer?.stop()
             SongPlayingFragment.Statified.playpauseImageButton?.setBackgroundResource(R.drawable.play_icon)
 
         }
