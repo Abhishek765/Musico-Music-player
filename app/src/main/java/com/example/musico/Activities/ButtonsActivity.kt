@@ -1,13 +1,17 @@
 package com.example.musico.Activities
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.fragment.app.FragmentActivity
+import com.example.musico.Activities.ButtonsActivity.Statified.songList
+import com.example.musico.Fragments.MainScreenFragment
 import com.example.musico.Fragments.SongPlayingFragment
 import com.example.musico.MyApplication
 import com.example.musico.R
@@ -20,16 +24,22 @@ class ButtonsActivity : AppCompatActivity() {
     var mActivity: Activity? = null
     private var isSongPlaying:Boolean ?= null
 
+    object Statified{
+        var songList: ArrayList<Songs> ?= null
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_buttons)
-//        var app = MyApplication()
-//        tempList = app.globalSongList
-//        bt_play_random.setOnClickListener {
-//            playRandomSong(tempList)
-//            Log.e("TAG", "onCreate: $tempList" )
-//        }
-
+//        songList = getSongsFromPhone()
+        this.title = "Home"
+        songList = MainScreenFragment.Statified.getSongsList
+        Log.e("Inside Button Activity", "onCreate: List:  $songList" )
+//
+        bt_play_random.setOnClickListener {
+            playRandomSong()
+//            Toast.makeText(this, "Random is playing", Toast.LENGTH_SHORT).show()
+        }
     }
 
     //    For Emotion Detection
@@ -57,49 +67,12 @@ class ButtonsActivity : AppCompatActivity() {
     }
 
     // TODO: 06-11-2020  Play some random song
-    fun playRandomSong(view: View) {
-//    Get the song list from MainsScreenFragment using getSongsFromPhone method
+    fun playRandomSong() {
 
-//        MainScreenFragment.listofSongs?.let { songList?.addAll(it) }
-            val songList = SongPlayingFragment.Statified.fetchSongs
-//        var mainScreenFragment = MainScreenFragment()
-//        songList = mainScreenFragment.getSongsFromPhone()
-//        Log.e("ButtonsActivity", "SongList Before: $songList" )
-//        getSongsFromPhone()
-        Log.e("ButtonsActivity", "SongList After: $songList")
-
-        val randomPosition = (0..songList!!.size).random()
-/* getting random song */
-        val songObject = songList[randomPosition]
-
-        val args = Bundle()
-        val songPlayingFragment = SongPlayingFragment()
-        args.putString("songArtist", songObject.artist)
-        args.putString("path", songObject.songData)
-        args.putString("songTitle", songObject.songTitle)
-        args.putInt("songId", songObject.songID.toInt() as Int)
-        args.putInt("songPosition", randomPosition)
-        args.putParcelableArrayList("songData", songList)
-        songPlayingFragment.arguments = args
-
-        try {
-            if (SongPlayingFragment.Statified.mediaplayer?.isPlaying as Boolean) {
-                SongPlayingFragment.Statified.mediaplayer?.stop()
-            }
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-        (this as FragmentActivity).supportFragmentManager
-                .beginTransaction()
-                .replace(R.id.details_fragment, songPlayingFragment)
-                .addToBackStack("SongPlayingFragment")
-                .commit()
-
-    }
-
-    fun rand(start: Int, end: Int): Int {
-        require(start <= end){}
-        return Random(System.nanoTime()).nextInt(start, end + 1)
+            var MainIntent = Intent(this, MainActivity::class.java)
+            MainIntent.putExtra("RandomSong", "playRandom")
+        Toast.makeText(this, "Starting Random Song", Toast.LENGTH_SHORT).show()
+            startActivity(MainIntent)
     }
 
     fun getSongsFromPhone(): ArrayList<Songs>{
@@ -125,4 +98,6 @@ class ButtonsActivity : AppCompatActivity() {
         }
         return arrayList
     }
+
+
 }

@@ -104,7 +104,9 @@
                                           <PersistentState>
                                             <option name="values">
                                               <map>
-                                                <entry key="color" value="000000" />
+                                                <entry key="color" value="ffffff" />
+                                                <entry key="fontFamily" value="Droid Sans Fallback" />
+                                                <entry key="text" value="MUSIC SUITE" />
                                                 <entry key="trimmed" value="true" />
                                               </map>
                                             </option>
@@ -116,7 +118,9 @@
                                           <PersistentState>
                                             <option name="values">
                                               <map>
-                                                <entry key="color" value="000000" />
+                                                <entry key="color" value="ffffff" />
+                                                <entry key="fontFamily" value="Droid Sans Fallback" />
+                                                <entry key="text" value="MUSIC SUITE" />
                                                 <entry key="trimmed" value="true" />
                                               </map>
                                             </option>
@@ -127,8 +131,10 @@
                                   </option>
                                   <option name="values">
                                     <map>
+                                      <entry key="backgroundAssetType" value="COLOR" />
+                                      <entry key="backgroundColor" value="28a3ff" />
+                                      <entry key="foregroundAssetType" value="TEXT" />
                                       <entry key="outputName" value="ic_home" />
-                                      <entry key="previewDensity" value="MEDIUM" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -292,11 +298,6 @@
                                           </PersistentState>
                                         </value>
                                       </entry>
-                                    </map>
-                                  </option>
-                                  <option name="values">
-                                    <map>
-                                      <entry key="previewDensity" value="MEDIUM" />
                                     </map>
                                   </option>
                                 </PersistentState>

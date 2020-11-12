@@ -52,7 +52,6 @@
         android:layout_below="@+id/bt_song_list"
         android:layout_alignParentEnd="true"
         android:layout_marginTop="103dp"
-        android:onClick="playRandomSong"
         android:layout_marginEnd="130dp"
         android:background="@drawable/ic_play_icon" />
 

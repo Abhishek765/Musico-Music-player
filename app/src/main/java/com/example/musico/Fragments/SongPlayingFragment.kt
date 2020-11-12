@@ -120,10 +120,10 @@ class SongPlayingFragment : Fragment() {
         fun updateTextViews(songtitle: String, songArtist: String) {
             var songTitleUpdated = songtitle
             var songArtistUpdated = songArtist
-            if(songtitle.equals("<unknown>", true)){
+            if (songtitle.equals("<unknown>", true)) {
                 songTitleUpdated = "unknown"
             }
-            if(songArtist.equals("<unknown>", true)){
+            if (songArtist.equals("<unknown>", true)) {
                 songArtistUpdated = "unknown"
             }
             Statified.songTitleView?.setText(songTitleUpdated)
@@ -267,11 +267,12 @@ class SongPlayingFragment : Fragment() {
         inflater?.inflate(R.menu.song_playing_menu, menu)
         super.onCreateOptionsMenu(menu, inflater)
     }
+
     /*Here we handle the click event of the menu item*/
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item?.itemId) {
-        /*If the id of the item click is action_redirect
-    * we navigate back to the list*/
+            /*If the id of the item click is action_redirect
+        * we navigate back to the list*/
             R.id.action_redirect -> {
                 Statified.myActivity?.onBackPressed()
                 return false
@@ -363,9 +364,12 @@ class SongPlayingFragment : Fragment() {
         }
         // TODO: 12-11-2020 Make changes here to get song of happy Fragment also 
         var fromFavBottomBar = arguments!!.get("FavBottomBar") as? String
-//        var fromFavBottomBar = arguments!!.get("HapBottomBar") as? String
+        var fromHapBottomBar = arguments!!.get("HapBottomBar") as? String
+
         if (fromFavBottomBar != null) {
             Statified.mediaplayer = FavoriteFragment.Statified.mediaPlayer
+        } else if (fromHapBottomBar != null) {
+            Statified.mediaplayer = HappyFragment.Statified.mediaPlayer
         } else {
             Statified.mediaplayer = MediaPlayer()
             Statified.mediaplayer?.setAudioStreamType(AudioManager.STREAM_MUSIC)
@@ -414,23 +418,24 @@ class SongPlayingFragment : Fragment() {
             Statified.currentSongHelper?.isLoop = false
             Statified.loopImageButton?.setBackgroundResource(R.drawable.loop_white_icon)
         }
+
         if (Statified.favotiteContent?.checkifIdExists(Statified.currentSongHelper?.songId?.toInt() as Int) as Boolean) {
             Statified.fab?.setImageDrawable(ContextCompat.getDrawable(Statified.myActivity!!, R.drawable.favorite_on))
         } else {
             Statified.fab?.setImageDrawable(ContextCompat.getDrawable(Statified.myActivity!!, R.drawable.favorite_off))
         }
-        if(Statified.mediaplayer?.isPlaying as Boolean){
+        if (Statified.mediaplayer?.isPlaying as Boolean) {
             Statified.playpauseImageButton?.setBackgroundResource(R.drawable.pause_icon)
-        }else{
+        } else {
             Statified.playpauseImageButton?.setBackgroundResource(R.drawable.play_icon)
         }
 
         //to make seekbar adjustable
-        seekBar?.setOnSeekBarChangeListener(object: SeekBar.OnSeekBarChangeListener{
+        seekBar?.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(p0: SeekBar?, p1: Int, p2: Boolean) {
-               if(p2){
-                   Statified.mediaplayer?.seekTo(p1)
-               }
+                if (p2) {
+                    Statified.mediaplayer?.seekTo(p1)
+                }
             }
 
             override fun onStartTrackingTouch(p0: SeekBar?) {
@@ -439,12 +444,12 @@ class SongPlayingFragment : Fragment() {
             override fun onStopTrackingTouch(p0: SeekBar?) {
             }
 
-        } )
+        })
     }
 
 
     fun clickHandler() {
-
+//        Favorite Button
         Statified.fab?.setOnClickListener {
             if (Statified.favotiteContent?.checkifIdExists(Statified.currentSongHelper?.songId?.toInt() as Int) as Boolean) {
                 Statified.fab?.setImageDrawable(ContextCompat.getDrawable(Statified.myActivity!!, R.drawable.favorite_off))
@@ -459,6 +464,7 @@ class SongPlayingFragment : Fragment() {
             }
         }
 
+//        Shuffle button
         Statified.shuffleImageButton?.setOnClickListener {
             var editorShuffle = Statified.myActivity?.getSharedPreferences(Staticated.MY_PREFS_SHUFFLE, Context.MODE_PRIVATE)?.edit()
             var editorLoop = Statified.myActivity?.getSharedPreferences(Staticated.My_PREFS_LOOP, Context.MODE_PRIVATE)?.edit()
@@ -479,6 +485,7 @@ class SongPlayingFragment : Fragment() {
                 editorLoop?.apply()
             }
         }
+//        Next Button
         Statified.nextImageButton?.setOnClickListener {
             Statified.currentSongHelper?.isPlaying = true
             Statified.playpauseImageButton?.setBackgroundResource(R.drawable.pause_icon)
@@ -488,6 +495,7 @@ class SongPlayingFragment : Fragment() {
                 Staticated.playNext("PlayNextNormal")
             }
         }
+        //        Previous Button
         Statified.previousImageButton?.setOnClickListener {
             Statified.currentSongHelper?.isPlaying = true
             if (Statified.currentSongHelper?.isLoop as Boolean) {
@@ -495,6 +503,7 @@ class SongPlayingFragment : Fragment() {
             }
             playPrevious()
         }
+//        Loop button
         Statified.loopImageButton?.setOnClickListener {
             var editorShuffle = Statified.myActivity?.getSharedPreferences(Staticated.MY_PREFS_SHUFFLE, Context.MODE_PRIVATE)?.edit()
             var editorLoop = Statified.myActivity?.getSharedPreferences(Staticated.My_PREFS_LOOP, Context.MODE_PRIVATE)?.edit()
@@ -514,6 +523,8 @@ class SongPlayingFragment : Fragment() {
                 editorShuffle?.apply()
             }
         }
+
+//        Playpause Button
         Statified.playpauseImageButton?.setOnClickListener {
             if (Statified.mediaplayer?.isPlaying as Boolean) {
                 Statified.mediaplayer?.pause()

@@ -42,6 +42,7 @@ class FavoriteAdapter(_songDetails: ArrayList<Songs>, _context: Context) : Recyc
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val songObject = songDetails?.get(position)
+        holder.emotionMenu?.visibility = View.GONE
         holder.trackTitle?.text = songObject?.songTitle
         holder.trackArtist?.text = songObject?.artist
         holder.contentHolder?.setOnClickListener {
@@ -73,11 +74,13 @@ class FavoriteAdapter(_songDetails: ArrayList<Songs>, _context: Context) : Recyc
         var trackTitle: TextView? = null
         var trackArtist: TextView? = null
         var contentHolder: RelativeLayout? = null
+        var emotionMenu: TextView ?= null
 
         init {
             trackTitle = view.findViewById<TextView>(R.id.trackTitle)
             trackArtist = view.findViewById<TextView>(R.id.trackArtist)
             contentHolder = view.findViewById<RelativeLayout>(R.id.contentRow)
+            emotionMenu = view.findViewById(R.id.tv_emotion_options)
         }
 
     }

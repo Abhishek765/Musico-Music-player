@@ -28,6 +28,7 @@ class SplashActivity : AppCompatActivity() {
         } else {
             Handler().postDelayed({
                 val startAct = Intent(this@SplashActivity, MainActivity::class.java)
+                startAct.putExtra("fromStart", "FromStart")
                 startActivity(startAct)
 //                Log.e("TAG", "onCreate:  $startAct" )
                 this.finish()
@@ -46,6 +47,7 @@ class SplashActivity : AppCompatActivity() {
                         && grantResults[4] == PackageManager.PERMISSION_GRANTED) {
                     Handler().postDelayed({
                         val startAct = Intent(this@SplashActivity, MainActivity::class.java)
+                        startAct.putExtra("fromStart", "FromStart")
                         startActivity(startAct)
                         this.finish()
                     },1000)

@@ -36,19 +36,11 @@ class HappyFragment : Fragment() {
 
     var refreshList: ArrayList<Songs>? = null
     var getListfromDatabase: ArrayList<Songs>? = null
+
     object Statified {
         var mediaPlayer: MediaPlayer? = null
         var happyContent: EchoDatabase? = null
     }
-
-//    override fun setUserVisibleHint(isVisibleToUser: Boolean) {
-//        super.setUserVisibleHint(isVisibleToUser)
-//        if (isVisibleToUser) {
-//            //Write down your refresh code here, it will call every time user come to this fragment.
-//            //If you are using listview with custom adapter, just call notifyDataSetChanged().
-//            happyAdapter?.notifyDataSetChanged()
-//        }
-//    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -78,7 +70,7 @@ class HappyFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         Statified.happyContent = EchoDatabase(myActivity)
         display_happy_by_searching()
-        Log.e("HappyFragment", "onActivityCreated: $getListfromDatabase" )
+        Log.e("HappyFragment", "onActivityCreated: $getListfromDatabase")
         bottomBarSetup()
 
     }
@@ -114,7 +106,7 @@ class HappyFragment : Fragment() {
         return arrayList
     }
 
-     fun bottomBarSetup() {
+    fun bottomBarSetup() {
         try {
             bottomBarClickHandler()
             songTitle?.setText(SongPlayingFragment.Statified.currentSongHelper?.songTitle)
@@ -132,7 +124,7 @@ class HappyFragment : Fragment() {
         }
     }
 
-     fun bottomBarClickHandler() {
+    fun bottomBarClickHandler() {
         nowPlayingBottomBar?.setOnClickListener {
 //            if (SongPlayingFragment.Statified.mediaplayer?.isPlaying as Boolean) {
 //                SongPlayingFragment.Statified.mediaplayer?.seekTo(0)
@@ -141,7 +133,7 @@ class HappyFragment : Fragment() {
 
             Statified.mediaPlayer = SongPlayingFragment.Statified.mediaplayer
             var args = Bundle()
-            Log.e("Happy Fragment", "bottomBarClickHandler: args : $args" )
+            Log.e("Happy Fragment", "bottomBarClickHandler: args : $args")
             val songPlayingFragment = SongPlayingFragment()
             args.putString("songArtist", SongPlayingFragment.Statified.currentSongHelper?.songArtist)
             args.putString("path", SongPlayingFragment.Statified.currentSongHelper?.songPath)
@@ -174,13 +166,13 @@ class HappyFragment : Fragment() {
         }
     }
 
-     fun display_happy_by_searching() {
+    fun display_happy_by_searching() {
         if (Statified.happyContent?.checkSizeHappy() as Int > 0) {
             refreshList = ArrayList<Songs>()
             getListfromDatabase = Statified.happyContent?.queryDBHappyList()
 
             var fetchListfromDevice = getSongsFromPhone()
-            if(fetchListfromDevice != null) {
+            if (fetchListfromDevice != null) {
                 for (i in 0 until fetchListfromDevice.size) {
                     for (j in 0 until getListfromDatabase?.size as Int) {
                         if ((getListfromDatabase?.get(j)?.songID) == (fetchListfromDevice?.get(i)?.songID)) {
@@ -188,7 +180,7 @@ class HappyFragment : Fragment() {
                         }
                     }
                 }
-            }else{
+            } else {
 
             }
 
@@ -212,5 +204,4 @@ class HappyFragment : Fragment() {
         }
 
     }
-
 }

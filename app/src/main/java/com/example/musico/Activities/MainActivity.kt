@@ -23,6 +23,7 @@ import com.example.musico.Fragments.MainScreenFragment
 import com.example.musico.Fragments.SongPlayingFragment
 import com.example.musico.R
 import com.example.musico.adapters.NavigationDrawerAdapter
+import kotlin.random.Random
 
 private var mIsInForegroundMode = false
 class MainActivity : AppCompatActivity() {
@@ -42,6 +43,10 @@ class MainActivity : AppCompatActivity() {
     @SuppressLint("NewApi")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        var intentStart = intent.getStringExtra("fromStart")
+        if(intentStart == "FromStart"){
+            startActivity(Intent(this,ButtonsActivity::class.java))
+        }
         setContentView(R.layout.activity_main)
 
 
@@ -68,8 +73,8 @@ class MainActivity : AppCompatActivity() {
                 val happyScreenFragment = HappyFragment()
                 this.supportFragmentManager
                         .beginTransaction()
-//                        .add(R.id.details_fragment, happyScreenFragment, "HappyScreenFragment")
-                        .replace(R.id.details_fragment, happyScreenFragment)
+                        .add(R.id.details_fragment, happyScreenFragment, "HappyScreenFragment")
+//                        .replace(R.id.details_fragment, happyScreenFragment)
                         .commit()
             }
 //            emotionString.equals("neutral") -> {
@@ -79,12 +84,43 @@ class MainActivity : AppCompatActivity() {
                 val mainScreenFragment = MainScreenFragment()
                 this.supportFragmentManager
                         .beginTransaction()
-//                        .add(R.id.details_fragment, mainScreenFragment, "MainScreenFragment")
-                        .replace(R.id.details_fragment, mainScreenFragment)
+                        .add(R.id.details_fragment, mainScreenFragment, "MainScreenFragment")
+//                        .replace(R.id.details_fragment, mainScreenFragment)
                         .commit()
             }
         }
+        val ButtonCode = intent.getStringExtra("RandomSong")
 
+        if(ButtonCode == "playRandom"){
+            //play random song
+            var songLIst = ButtonsActivity.Statified.songList
+            Log.e("MainActivity", "SongList : $songLIst" )
+
+            val randomPosition = (0..songLIst!!.size).random()
+            val songObject = songLIst?.get(randomPosition)
+            val args = Bundle()
+        var songPlayingFragment = SongPlayingFragment()
+        args.putString("songArtist", songObject?.artist)
+        args.putString("path", songObject?.songData)
+        args.putString("songTitle", songObject?.songTitle)
+        args.putInt("songId", songObject?.songID?.toInt() as Int)
+        args.putInt("songPosition", randomPosition)
+        args.putParcelableArrayList("songData", songLIst)
+        songPlayingFragment.arguments = args
+
+        try {
+            if (SongPlayingFragment.Statified.mediaplayer?.isPlaying as Boolean) {
+                SongPlayingFragment.Statified.mediaplayer?.stop()
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+        (this).supportFragmentManager
+                .beginTransaction()
+                .replace(R.id.details_fragment, songPlayingFragment)
+                .addToBackStack("SongPlayingFragment")
+                .commit()
+        }
 
 
         var _navigationAdapter = NavigationDrawerAdapter(navigationDrawerIconList, images_for_navdrawer, this)
@@ -134,7 +170,11 @@ class MainActivity : AppCompatActivity() {
 
         mBuilder.build()
     }
-
+    // to generate random number
+    fun rand(start: Int, end: Int): Int {
+        require(start <= end){}
+        return Random(System.nanoTime()).nextInt(start, end + 1)
+    }
     override fun onStart() {
         super.onStart()
         Log.e("Inside Mainactivity", "onStart: is called")

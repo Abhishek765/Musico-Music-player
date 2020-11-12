@@ -179,12 +179,14 @@ public class DemoActivity extends AppCompatActivity {
                                                         Intent mainIntent = new Intent(DemoActivity.this, MainActivity.class);
                                                         mainIntent.putExtra("emotion", "neutral");
                                                         startActivity(mainIntent);
+                                                        finish();
 
                                                     } else if (emotionValue.equals("happiness")) {
                                                         //Open Happy Fragment
                                                         Intent mainIntent = new Intent(DemoActivity.this, MainActivity.class);
                                                         mainIntent.putExtra("emotion", "happiness");
                                                         startActivity(mainIntent);
+                                                        finish();
 
                                                     } else if (emotionValue.equals("sadness")) {
                                                         //Open sad Fragment
