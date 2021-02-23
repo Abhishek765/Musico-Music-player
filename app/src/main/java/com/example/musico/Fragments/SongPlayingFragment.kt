@@ -365,11 +365,14 @@ class SongPlayingFragment : Fragment() {
         // TODO: 12-11-2020 Make changes here to get song of happy Fragment also 
         var fromFavBottomBar = arguments!!.get("FavBottomBar") as? String
         var fromHapBottomBar = arguments!!.get("HapBottomBar") as? String
+        var fromSadBottomBar = arguments!!.get("SadBottomBar") as? String
 
         if (fromFavBottomBar != null) {
             Statified.mediaplayer = FavoriteFragment.Statified.mediaPlayer
         } else if (fromHapBottomBar != null) {
             Statified.mediaplayer = HappyFragment.Statified.mediaPlayer
+        } else if (fromSadBottomBar != null) {
+            Statified.mediaplayer = SadFragment.Statified.mediaPlayer
         } else {
             Statified.mediaplayer = MediaPlayer()
             Statified.mediaplayer?.setAudioStreamType(AudioManager.STREAM_MUSIC)

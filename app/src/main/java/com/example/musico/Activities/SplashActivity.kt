@@ -22,7 +22,7 @@ class SplashActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
-        if( !hasPermissions(this@SplashActivity, *permissionsString)) {
+        if (!hasPermissions(this@SplashActivity, *permissionsString)) {
             //we have to grant permissions
             ActivityCompat.requestPermissions(this@SplashActivity, permissionsString, 131)
         } else {
@@ -38,9 +38,9 @@ class SplashActivity : AppCompatActivity() {
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        when(requestCode){
+        when (requestCode) {
             131 -> {
-                if(grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED
+                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED
                         && grantResults[1] == PackageManager.PERMISSION_GRANTED
                         && grantResults[2] == PackageManager.PERMISSION_GRANTED
                         && grantResults[3] == PackageManager.PERMISSION_GRANTED
@@ -50,20 +50,22 @@ class SplashActivity : AppCompatActivity() {
                         startAct.putExtra("fromStart", "FromStart")
                         startActivity(startAct)
                         this.finish()
-                    },1000)
+                    }, 1000)
                 } else {
                     Toast.makeText(this@SplashActivity, "Please grant all permission to continue", Toast.LENGTH_SHORT).show()
                     this.finish()
                 }
                 return
 
-            } else -> {
-            Toast.makeText(this@SplashActivity, "Something went wrong", Toast.LENGTH_SHORT).show()
-            this.finish()
-            return
-        }
+            }
+            else -> {
+                Toast.makeText(this@SplashActivity, "Something went wrong", Toast.LENGTH_SHORT).show()
+                this.finish()
+                return
+            }
         }
     }
+
     fun hasPermissions(context: Context, vararg permissions: String): Boolean {
         var hasAllPermissions = true
         for (permission in permissions) {

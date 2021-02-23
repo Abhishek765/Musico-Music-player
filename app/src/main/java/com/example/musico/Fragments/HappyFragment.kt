@@ -2,6 +2,7 @@ package com.example.musico.Fragments
 
 import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.media.MediaPlayer
 import android.os.Bundle
 import android.provider.MediaStore
@@ -13,10 +14,12 @@ import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.RelativeLayout
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.musico.Activities.MainActivity
 import com.example.musico.R
 import com.example.musico.Songs
 import com.example.musico.adapters.HappyAdapter
@@ -42,8 +45,7 @@ class HappyFragment : Fragment() {
         var happyContent: EchoDatabase? = null
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_happy, container, false)
         activity?.title = "Happy"
@@ -70,9 +72,7 @@ class HappyFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         Statified.happyContent = EchoDatabase(myActivity)
         display_happy_by_searching()
-        Log.e("HappyFragment", "onActivityCreated: $getListfromDatabase")
         bottomBarSetup()
-
     }
 
     override fun onPrepareOptionsMenu(menu: Menu?) {
@@ -133,7 +133,6 @@ class HappyFragment : Fragment() {
 
             Statified.mediaPlayer = SongPlayingFragment.Statified.mediaplayer
             var args = Bundle()
-            Log.e("Happy Fragment", "bottomBarClickHandler: args : $args")
             val songPlayingFragment = SongPlayingFragment()
             args.putString("songArtist", SongPlayingFragment.Statified.currentSongHelper?.songArtist)
             args.putString("path", SongPlayingFragment.Statified.currentSongHelper?.songPath)

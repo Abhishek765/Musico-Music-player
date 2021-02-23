@@ -10,6 +10,7 @@ import android.widget.PopupMenu
 import android.widget.RelativeLayout
 import android.widget.TextView
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.example.musico.CurrentSongHelper
@@ -25,7 +26,6 @@ class MainScreenAdapter(_songDetails: ArrayList<Songs>, _context: Context) : Rec
 
     var songDetails: ArrayList<Songs>? = null
     var mContext: Context? = null
-
 
 
     init {
@@ -108,7 +108,16 @@ class MainScreenAdapter(_songDetails: ArrayList<Songs>, _context: Context) : Rec
                         Toast.makeText(mContext, "Neutral is clicked", Toast.LENGTH_SHORT).show()
                     }
                     R.id.it_sad -> {
-                        Toast.makeText(mContext, "Sad is clicked", Toast.LENGTH_SHORT).show()
+                        //add particular item to happy list
+                        if (MainScreenFragment.Statified.sadContent?.checkifIdExistsSad(songId.toInt()) as Boolean) {
+                            Toast.makeText(mContext, "This song is already present song id: ${songId.toInt()}", Toast.LENGTH_SHORT).show()
+                            Log.e("Main Screen Adapter", "song path in MainScreen: $path")
+                        } else {
+                            MainScreenFragment.Statified.sadContent?.storeAsSad(songId.toInt(), _songArtist, _songTitle, path)
+                            Toast.makeText(mContext, "Added successfully Song title: ${_songTitle}", Toast.LENGTH_SHORT).show()
+                            Log.e("Main Screen Adapter", "song path in Mainscrenn: $path")
+
+                        }
                     }
                 }
                 false

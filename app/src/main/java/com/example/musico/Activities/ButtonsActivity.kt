@@ -22,10 +22,10 @@ import kotlin.random.Random
 
 class ButtonsActivity : AppCompatActivity() {
     var mActivity: Activity? = null
-    private var isSongPlaying:Boolean ?= null
+    private var isSongPlaying: Boolean? = null
 
-    object Statified{
-        var songList: ArrayList<Songs> ?= null
+    object Statified {
+        var songList: ArrayList<Songs>? = null
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,7 +34,7 @@ class ButtonsActivity : AppCompatActivity() {
 //        songList = getSongsFromPhone()
         this.title = "Home"
         songList = MainScreenFragment.Statified.getSongsList
-        Log.e("Inside Button Activity", "onCreate: List:  $songList" )
+        Log.e("Inside Button Activity", "onCreate: List:  $songList")
 //
         bt_play_random.setOnClickListener {
             playRandomSong()
@@ -46,7 +46,7 @@ class ButtonsActivity : AppCompatActivity() {
     fun openEmotionActivity(view: View) {
         isSongPlaying = SongPlayingFragment.Statified.mediaplayer?.isPlaying
 
-        if(isSongPlaying == true){
+        if (isSongPlaying == true) {
             //Stop the song and remove the notification
             MainActivity.Statified.notificationManager?.cancel(1888)
 
@@ -66,16 +66,15 @@ class ButtonsActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
-    // TODO: 06-11-2020  Play some random song
     fun playRandomSong() {
 
-            var MainIntent = Intent(this, MainActivity::class.java)
-            MainIntent.putExtra("RandomSong", "playRandom")
+        var MainIntent = Intent(this, MainActivity::class.java)
+        MainIntent.putExtra("RandomSong", "playRandom")
         Toast.makeText(this, "Starting Random Song", Toast.LENGTH_SHORT).show()
-            startActivity(MainIntent)
+        startActivity(MainIntent)
     }
 
-    fun getSongsFromPhone(): ArrayList<Songs>{
+    fun getSongsFromPhone(): ArrayList<Songs> {
         var arrayList = ArrayList<Songs>()
         var contentResolver = mActivity?.contentResolver
         var songUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI

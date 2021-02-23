@@ -30,19 +30,21 @@ import kotlin.collections.ArrayList
  */
 class MainScreenFragment : Fragment() {
 
-    object Statified{
+    object Statified {
         var getSongsList: ArrayList<Songs>? = null
         var happyContent: EchoDatabase? = null
+        var sadContent: EchoDatabase? = null
 //        var currentSongHelper: CurrentSongHelper? = null
 
 
     }
-//    This cannot be companion because writing that will make this templist singleton(one instance only) but we want multiple instance
+
+    //    This cannot be companion because writing that will make this templist singleton(one instance only) but we want multiple instance
 // TODO: 07-11-2020 Remove this from companion object 
-    companion object{
-        var tempList: ArrayList<Songs> ?= null
+    companion object {
+        var tempList: ArrayList<Songs>? = null
     }
-   
+
 
     var nowPlayingBottomBar: RelativeLayout? = null
     var playPauseButton: ImageButton? = null
@@ -146,6 +148,8 @@ class MainScreenFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         Statified.happyContent = EchoDatabase(myActivity)
+        Statified.sadContent = EchoDatabase(myActivity)
+
 //        Statified.currentSongHelper = CurrentSongHelper()
         Statified.getSongsList = getSongsFromPhone()
         // TODO: 10-11-2020 Fix this 2 times calling of activity result method 
@@ -179,7 +183,6 @@ class MainScreenFragment : Fragment() {
 //        }
 
 
-
         /*Declaring the preferences to save the sorting order which we select*/
         val prefs = activity?.getSharedPreferences("action_sort", Context.MODE_PRIVATE)
         val action_sort_ascending = prefs?.getString("action_sort_ascending", "true")
@@ -195,6 +198,7 @@ class MainScreenFragment : Fragment() {
             recyclerView?.layoutManager = mLayoutManager
             recyclerView?.itemAnimator = DefaultItemAnimator()
             recyclerView?.adapter = _mainScreenAdapter
+            recyclerView?.setHasFixedSize(true)
         }
 
 
