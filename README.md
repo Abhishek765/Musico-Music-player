@@ -1,6 +1,6 @@
 # MusicSuite-Music-player-
-A Music player application which is able to suggest songs list to user according to his/her mood (Emotion).(Still In the Development Phase)
-Planning to have videos section also.
+A Music player application which is able to suggest songs list to user according to his/her mood (Emotion).
+# [Demo Link](https://bit.ly/3kxovSF)
 
 # Demo Images:
 
